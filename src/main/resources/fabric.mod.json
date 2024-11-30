@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "basic-computing",
+  "version": "${version}",
+  "name": "basic-computing",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/basic-computing/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "industries.spaceboy.basicComputing.client.BasicComputingClient"
+    ],
+    "main": [
+      "industries.spaceboy.basicComputing.BasicComputing"
+    ]
+  },
+  "mixins": [
+    "basic-computing.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
