@@ -1,7 +1,7 @@
 package industries.spaceboy.basicComputing.lib.basic
 
-class Parser(private val tokenizer: Tokenizer) {
-
+class Parser(program: String) {
+    private val tokenizer = Tokenizer(program)
     private var currentToken: Token? = tokenizer.getNextToken()
 
     private fun consume() {

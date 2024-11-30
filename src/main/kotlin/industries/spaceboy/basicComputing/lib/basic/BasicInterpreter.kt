@@ -30,11 +30,11 @@ class BasicInterpreter(
     }
 
     fun setVariable(name: String, value: Any) {
-        executionContext.variables[name] = value
+        executionContext.assign(name, value)
     }
 
     fun getVariable(name: String): Any? {
-        return executionContext.variables[name]
+        return executionContext.getVariable(name)
     }
 
     fun appendStatements(statements: List<Statement>) {

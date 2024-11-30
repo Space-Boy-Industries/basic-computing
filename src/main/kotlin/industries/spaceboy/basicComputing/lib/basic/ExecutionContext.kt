@@ -1,5 +1,8 @@
 package industries.spaceboy.basicComputing.lib.basic
 
-class ExecutionContext {
-    val variables = mutableMapOf<String, Any>()
+abstract class ExecutionContext {
+    abstract fun print(value: Any)
+    abstract fun assign(variable: String, value: Any)
+    abstract fun getVariable(variable: String): Any
 }
+

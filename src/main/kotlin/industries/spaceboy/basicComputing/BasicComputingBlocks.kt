@@ -1,5 +1,6 @@
 package industries.spaceboy.basicComputing
 
+import industries.spaceboy.basicComputing.blocks.Computer
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.item.BlockItem
@@ -13,14 +14,16 @@ import net.minecraft.util.Identifier
 
 class BasicComputingBlocks {
     val COMPUTER = register(
-        AbstractBlock.Settings.create().sounds(BlockSoundGroup.COPPER),
-        "computer"
+        Computer(
+            AbstractBlock.Settings.create()
+                .sounds(BlockSoundGroup.COPPER)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(BasicComputing.MOD_ID, Computer.ID)))
+        ),
+        Computer.ID
     )
 
-    private fun register(blockSettings: AbstractBlock.Settings, name: String, shouldRegisterItem: Boolean = true): Block {
+    private fun register(block: Block, name: String, shouldRegisterItem: Boolean = true): Block {
         val id: Identifier = Identifier.of(BasicComputing.MOD_ID, name)
-        blockSettings.registryKey(RegistryKey.of(RegistryKeys.BLOCK, id))
-        val block = Block(blockSettings)
 
         if (shouldRegisterItem) {
             val itemSettings = Item.Settings()

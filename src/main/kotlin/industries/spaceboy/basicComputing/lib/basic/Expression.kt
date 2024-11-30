@@ -9,7 +9,7 @@ sealed class Expression {
     }
     data class Variable(val name: String) : Expression() {
         override fun evaluate(ctx: ExecutionContext): Any {
-            return ctx.variables[name] ?: throw RuntimeException("Variable $name not found")
+            return ctx.getVariable(name) ?: throw RuntimeException("Variable $name not found")
         }
     }
 

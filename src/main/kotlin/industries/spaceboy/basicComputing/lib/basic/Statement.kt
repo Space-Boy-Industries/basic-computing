@@ -5,14 +5,14 @@ sealed class Statement {
     data class Assignment(val variable: String, val expression: Expression) : Statement() {
         override fun execute(executionContext: ExecutionContext) {
             val value = expression.evaluate(executionContext)
-            executionContext.variables[variable] = value
+            executionContext.assign(variable, value)
         }
     }
 
     data class Print(val expression: Expression) : Statement() {
         override fun execute(executionContext: ExecutionContext) {
             val value = expression.evaluate(executionContext)
-            println(value)
+            executionContext.print(value)
         }
     }
 
