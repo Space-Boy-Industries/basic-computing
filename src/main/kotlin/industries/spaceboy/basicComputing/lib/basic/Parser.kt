@@ -3,20 +3,30 @@ package industries.spaceboy.basicComputing.lib.basic
 class Parser(program: String) {
     private val tokenizer = Tokenizer(program)
     private var currentToken: Token? = tokenizer.getNextToken()
+    private var currentLine = 0
+    private var labels = mutableMapOf<String, Int>()
 
     private fun consume() {
         currentToken = tokenizer.getNextToken()
     }
 
     // Parse the entire program (list of statements)
-    fun parseProgram(): List<Statement> {
+    fun parseProgram(): Program {
+        currentLine = 0
         val statements = mutableListOf<Statement>()
 
         while (currentToken != null) {
-            statements.add(parseStatement())
+            val statement = parseStatement()
+            if (statement is Statement.Label) {
+                labels[statement.label] = currentLine
+            }
+            
+            statements.add(statement)
+            currentLine++
         }
 
-        return statements
+
+        return Program(statements, labels)
     }
 
     // Parse a single statement
@@ -29,6 +39,8 @@ class Parser(program: String) {
                 when (keyword) {
                     "LET" -> parseAssignment()
                     "PRINT" -> parsePrint()
+                    "LABEL" -> parseLabel()
+                    "GOTO" -> parseGoto()
                     else -> throw IllegalArgumentException("Unknown keyword: $keyword")
                 }
             }
@@ -53,6 +65,20 @@ class Parser(program: String) {
     private fun parsePrint(): Statement.Print {
         val expression = parseExpression()
         return Statement.Print(expression)
+    }
+
+    private fun parseLabel(): Statement.Label {
+        if (currentToken !is Token.Variable) throw IllegalArgumentException("Expected variable")
+        val label = (currentToken as Token.Variable).name
+        consume()
+        return Statement.Label(label, currentLine)
+    }
+
+    private fun parseGoto(): Statement.Goto {
+        if (currentToken !is Token.Variable) throw IllegalArgumentException("Expected variable")
+        val label = (currentToken as Token.Variable).name
+        consume()
+        return Statement.Goto(label)
     }
 
     // Parse an expression (handles + and - operators)

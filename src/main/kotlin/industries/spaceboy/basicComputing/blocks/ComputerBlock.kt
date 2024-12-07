@@ -5,6 +5,7 @@ import industries.spaceboy.basicComputing.blockEntities.ComputerBlockEntity
 import industries.spaceboy.basicComputing.lib.basic.BasicInterpreter
 import industries.spaceboy.basicComputing.lib.basic.ExecutionContext
 import industries.spaceboy.basicComputing.lib.basic.Parser
+import industries.spaceboy.basicComputing.lib.basic.Program
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -20,21 +21,11 @@ import net.minecraft.world.World
 
 // i feel like function points (or callback functions have potential for great evil.. maybe reconsider design)
 class ComputerExecutionContext(
-    private val printCallback: (value: Any) -> Unit
-): ExecutionContext() {
-    // eventually variables needs to be nbt data
-    private val variables = mutableMapOf<String, Any>()
-
+    private val printCallback: (value: Any) -> Unit,
+    program: Program
+): ExecutionContext(program) {
     override fun print(value: Any) {
         printCallback(value)
-    }
-
-    override fun assign(variable: String, value: Any) {
-        variables[variable] = value
-    }
-
-    override fun getVariable(variable: String): Any {
-        return variables[variable] ?: throw IllegalArgumentException("Variable not found: $variable")
     }
 }
 
@@ -68,8 +59,11 @@ class ComputerBlock(settings: Settings): BlockWithEntity(settings) {
         try {
             val src = blockEntity.getRom()
             val program = Parser(src).parseProgram()
-            val ctx = ComputerExecutionContext({ value -> sendMessageToPlayer(player, value.toString())})
-            val interpreter = BasicInterpreter(ctx, program)
+            val ctx = ComputerExecutionContext(
+                { value -> sendMessageToPlayer(player, value.toString())},
+                program
+            )
+            val interpreter = BasicInterpreter(ctx)
             interpreter.executeAll()
         } catch (e: Exception) {
             sendMessageToPlayer(player, "Error: ${e.message}")

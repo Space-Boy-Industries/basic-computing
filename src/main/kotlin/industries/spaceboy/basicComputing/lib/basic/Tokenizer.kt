@@ -4,7 +4,7 @@ class Tokenizer(private val input: String) {
     private var currentPos = 0
 
     // A list of keywords in BASIC
-    private val keywords = setOf("LET", "PRINT", "IF", "GOTO")
+    private val keywords = setOf("LET", "PRINT", "IF", "GOTO", "LABEL")
 
     fun getNextToken(): Token? {
         if (currentPos >= input.length) return null
@@ -79,6 +79,7 @@ class Tokenizer(private val input: String) {
                 Token.Str(str)
             }
 
+            // TODO: probably make internal set of errors to throw that can be easily output to the user
             else -> throw IllegalArgumentException("Unexpected character: $currentChar")
         }
     }

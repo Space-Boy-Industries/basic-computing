@@ -2,18 +2,15 @@ package industries.spaceboy.basicComputing.lib.basic
 
 class BasicInterpreter(
     private val executionContext: ExecutionContext,
-    private var statements: List<Statement>
 ) {
-    private var pc = 0
-
-    fun executeNext(): Boolean {
-        if (pc >= statements.size) {
+    private fun executeNext(): Boolean {
+        if (executionContext.pc >= executionContext.program.statements.size) {
             return true
         }
 
-        val statement = statements[pc]
+        val statement = executionContext.program.statements[executionContext.pc]
         statement.execute(executionContext)
-        pc++
+        executionContext.pc++
 
         return false
     }
@@ -23,21 +20,5 @@ class BasicInterpreter(
         while (!finished) {
             finished = executeNext()
         }
-    }
-
-    fun reset() {
-        pc = 0
-    }
-
-    fun setVariable(name: String, value: Any) {
-        executionContext.assign(name, value)
-    }
-
-    fun getVariable(name: String): Any? {
-        return executionContext.getVariable(name)
-    }
-
-    fun appendStatements(statements: List<Statement>) {
-        this.statements += statements
     }
 }
