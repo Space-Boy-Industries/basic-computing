@@ -10,6 +10,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -30,32 +31,30 @@ class ComputerBlock(settings: Settings): BlockWithEntity(settings) {
         player: PlayerEntity?,
         hit: BlockHitResult?
     ): ActionResult {
-        if (player == null) {
-            return ActionResult.FAIL
-        }
-
-        if (world == null) {
-            return ActionResult.FAIL
-        }
-
-        if (world.isClient) {
+        if (world!!.isClient) {
             return ActionResult.SUCCESS
         }
 
-        val blockEntity = world.getBlockEntity(pos) as ComputerBlockEntity
+//        val blockEntity = world.getBlockEntity(pos) as ComputerBlockEntity
+//        try {
+//            val src = blockEntity.getRom()
+//            val program = Parser(src).parseProgram()
+//            val ctx = ComputerExecutionContext(
+//                { value -> sendMessageToPlayer(player!!, value.toString())},
+//                program
+//            )
+//            val interpreter = BasicInterpreter(ctx)
+//            interpreter.executeAll()
+//        } catch (e: Exception) {
+//            sendMessageToPlayer(player!!, "Error: ${e.message}")
+//        }
 
+        val screenHandlerFactory = state!!.createScreenHandlerFactory(world, pos)
 
-        try {
-            val src = blockEntity.getRom()
-            val program = Parser(src).parseProgram()
-            val ctx = ComputerExecutionContext(
-                { value -> sendMessageToPlayer(player, value.toString())},
-                program
-            )
-            val interpreter = BasicInterpreter(ctx)
-            interpreter.executeAll()
-        } catch (e: Exception) {
-            sendMessageToPlayer(player, "Error: ${e.message}")
+        if (screenHandlerFactory != null) {
+            player!!.openHandledScreen(screenHandlerFactory)
+        } else {
+            System.err.println("WARNING: failed to create screen handler factory")
         }
 
         return ActionResult.SUCCESS
