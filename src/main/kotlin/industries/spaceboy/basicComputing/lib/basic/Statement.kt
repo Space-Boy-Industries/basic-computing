@@ -1,6 +1,5 @@
 package industries.spaceboy.basicComputing.lib.basic
 
-
 sealed class Statement {
     data class Assignment(val variable: String, val expression: Expression) : Statement() {
         override fun execute(executionContext: ExecutionContext) {
@@ -29,6 +28,18 @@ sealed class Statement {
         }
     }
 
-    // Define an abstract execute method that forces subclasses to implement their own logic
+    data class IF(val expression: Expression, val statement: Statement) : Statement() {
+        override fun execute(executionContext: ExecutionContext) {
+            val value = expression.evaluate(executionContext)
+
+            val truthy = (value is Boolean && value)
+                    || (value is Int && value != 0)
+
+            if (truthy) {
+                statement.execute(executionContext)
+            }
+        }
+    }
+
     abstract fun execute(executionContext: ExecutionContext)
 }

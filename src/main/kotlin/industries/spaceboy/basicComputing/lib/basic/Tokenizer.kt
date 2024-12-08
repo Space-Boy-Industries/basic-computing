@@ -4,7 +4,7 @@ class Tokenizer(private val input: String) {
     private var currentPos = 0
 
     // A list of keywords in BASIC
-    private val keywords = setOf("LET", "PRINT", "IF", "GOTO", "LABEL")
+    private val keywords = setOf("LET", "PRINT", "IF", "GOTO", "LABEL", "IF")
 
     fun getNextToken(): Token? {
         if (currentPos >= input.length) return null
@@ -38,7 +38,12 @@ class Tokenizer(private val input: String) {
             }
             currentChar == '=' -> {
                 currentPos++
-                Token.Equals
+                if (currentPos < input.length && input[currentPos] == '=') {
+                    currentPos++
+                    Token.DoubleEquals
+                } else {
+                    Token.Equals
+                }
             }
             currentChar == '+' -> {
                 currentPos++
@@ -77,6 +82,33 @@ class Tokenizer(private val input: String) {
                 val str = input.substring(start + 1, currentPos)
                 currentPos++ // Skip the closing quote
                 Token.Str(str)
+            }
+            currentChar == '<' -> {
+                currentPos++
+                if (currentPos < input.length && input[currentPos] == '=') {
+                    currentPos++
+                    Token.LessThanOrEqual
+                } else {
+                    Token.LessThan
+                }
+            }
+            currentChar == '>' -> {
+                currentPos++
+                if (currentPos < input.length && input[currentPos] == '=') {
+                    currentPos++
+                    Token.GreaterThanOrEqual
+                } else {
+                    Token.GreaterThan
+                }
+            }
+            currentChar == '!' -> {
+                currentPos++
+                if (currentPos < input.length && input[currentPos] == '=') {
+                    currentPos++
+                    Token.NotEquals
+                } else {
+                    throw IllegalArgumentException("Unexpected character: $currentChar")
+                }
             }
 
             // TODO: probably make internal set of errors to throw that can be easily output to the user

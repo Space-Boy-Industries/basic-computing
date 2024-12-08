@@ -12,7 +12,19 @@ class ComputerBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(BasicCo
         LET X = 5
         LET Y = 2
         LET Z = X + Y
-        PRINT "X + Y = " + Z
+        IF Z == 7 GOTO dothing
+        IF Z == 6 GOTO dontdothing
+
+        LABEL dothing
+        PRINT "Z is 7"
+        GOTO exit
+
+        LABEL dontdothing
+        PRINT "Z is not 7"
+        GOTO exit
+
+        LABEL exit
+        PRINT "Done"
     """.trimIndent()
 
     override fun writeNbt(nbt: NbtCompound?, registries: RegistryWrapper.WrapperLookup?) {

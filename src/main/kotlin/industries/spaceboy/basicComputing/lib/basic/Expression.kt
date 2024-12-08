@@ -61,6 +61,54 @@ sealed class Expression {
                     }
                 }
 
+                "==" -> {
+                    if (leftValue is Int && rightValue is Int) {
+                        leftValue == rightValue
+                    } else {
+                        throw IllegalArgumentException("Cannot compare non-integer values")
+                    }
+                }
+
+                "!=" -> {
+                    if (leftValue is Int && rightValue is Int) {
+                        leftValue != rightValue
+                    } else {
+                        throw IllegalArgumentException("Cannot compare non-integer values")
+                    }
+                }
+
+                "<" -> {
+                    if (leftValue is Int && rightValue is Int) {
+                        leftValue < rightValue
+                    } else {
+                        throw IllegalArgumentException("Cannot compare non-integer values")
+                    }
+                }
+
+                "<=" -> {
+                    if (leftValue is Int && rightValue is Int) {
+                        leftValue <= rightValue
+                    } else {
+                        throw IllegalArgumentException("Cannot compare non-integer values")
+                    }
+                }
+
+                ">" -> {
+                    if (leftValue is Int && rightValue is Int) {
+                        leftValue > rightValue
+                    } else {
+                        throw IllegalArgumentException("Cannot compare non-integer values")
+                    }
+                }
+
+                ">=" -> {
+                    if (leftValue is Int && rightValue is Int) {
+                        leftValue >= rightValue
+                    } else {
+                        throw IllegalArgumentException("Cannot compare non-integer values")
+                    }
+                }
+
                 else -> throw IllegalArgumentException("Unknown operator: ${this.operator}")
             }
         }

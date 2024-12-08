@@ -129,6 +129,58 @@ class BasicTest {
             interpreter.executeAll()
         }
     }
+
+    @Test
+    fun testSimpleTrueIf() {
+        val ctx = MockExecutionContext(Parser("""
+            LET a = 42
+            IF a == 42 PRINT "Yes"
+        """.trimIndent()).parseProgram())
+
+        val interpreter = BasicInterpreter(ctx)
+        interpreter.executeAll()
+
+        assertEquals(ctx.getStdout(), "Yes\n", "Should print Yes")
+    }
+
+    @Test
+    fun testSimpleFalseIf() {
+        val ctx = MockExecutionContext(Parser("""
+            LET a = 42
+            IF a == 23 PRINT "Yes"
+        """.trimIndent()).parseProgram())
+
+        val interpreter = BasicInterpreter(ctx)
+        interpreter.executeAll()
+
+        assertEquals(ctx.getStdout(), "", "Should not print anything")
+    }
+
+    @Test
+    fun testInvalidIfSyntax() {
+        // IF Syntax is IF <expression> <statement>
+        // Should throw because x + y is an expression, not a statement
+        assertThrows<IllegalArgumentException> {
+            Parser("""
+                LET a = 42
+                LET x = 23
+                LET y = 42
+                IF a == 23 x + y
+            """.trimIndent()).parseProgram()
+        }
+    }
+
+    @Test
+    fun testInvalidIfSyntax2() {
+        // IF Syntax is IF <expression> <statement>
+        // Should throw because there is no statement after the IF expression
+        assertThrows<IllegalArgumentException> {
+            Parser("""
+                LET a = 42
+                IF a == 23
+            """.trimIndent()).parseProgram()
+        }
+    }
 }
 
 class MockExecutionContext(program: Program) : ExecutionContext(program) {

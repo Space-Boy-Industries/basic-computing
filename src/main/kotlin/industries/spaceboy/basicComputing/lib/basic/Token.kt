@@ -6,6 +6,12 @@ sealed class Token {
     data class Keyword(val keyword: String) : Token()
     data class Str(val value: String) : Token()  // New token type for string literals
     data object Equals : Token()
+    data object DoubleEquals : Token()
+    data object NotEquals : Token()
+    data object GreaterThan : Token()
+    data object LessThan : Token()
+    data object GreaterThanOrEqual : Token()
+    data object LessThanOrEqual : Token()
     data object Plus : Token()
     data object Minus : Token()
     data object Star : Token()

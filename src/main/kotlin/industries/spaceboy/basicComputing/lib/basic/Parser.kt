@@ -20,7 +20,7 @@ class Parser(program: String) {
             if (statement is Statement.Label) {
                 labels[statement.label] = currentLine
             }
-            
+
             statements.add(statement)
             currentLine++
         }
@@ -41,6 +41,11 @@ class Parser(program: String) {
                     "PRINT" -> parsePrint()
                     "LABEL" -> parseLabel()
                     "GOTO" -> parseGoto()
+                    "IF" -> {
+                        val expression = parseExpression()
+                        val statement = parseStatement()
+                        return Statement.IF(expression, statement)
+                    }
                     else -> throw IllegalArgumentException("Unknown keyword: $keyword")
                 }
             }
@@ -84,13 +89,28 @@ class Parser(program: String) {
     // Parse an expression (handles + and - operators)
     private fun parseExpression(): Expression {
         var left = parseTerm()
-        while (currentToken is Token.Plus || currentToken is Token.Minus) {
+        while (
+            currentToken is Token.Plus
+            || currentToken is Token.Minus
+            || currentToken is Token.DoubleEquals
+            || currentToken is Token.NotEquals
+            || currentToken is Token.GreaterThan
+            || currentToken is Token.LessThan
+            || currentToken is Token.GreaterThanOrEqual
+            || currentToken is Token.LessThanOrEqual
+        ) {
             val operator = currentToken
             consume()
             val right = parseTerm()
             left = when (operator) {
                 Token.Plus -> Expression.BinaryOp(left, right, "+")
                 Token.Minus -> Expression.BinaryOp(left, right, "-")
+                Token.DoubleEquals -> Expression.BinaryOp(left, right, "==")
+                Token.NotEquals -> Expression.BinaryOp(left, right, "!=")
+                Token.GreaterThan -> Expression.BinaryOp(left, right, ">")
+                Token.LessThan -> Expression.BinaryOp(left, right, "<")
+                Token.GreaterThanOrEqual -> Expression.BinaryOp(left, right, ">=")
+                Token.LessThanOrEqual -> Expression.BinaryOp(left, right, "<=")
                 else -> left
             }
         }
