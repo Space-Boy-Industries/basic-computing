@@ -1,5 +1,6 @@
-package industries.spaceboy.basicComputing.lib.basic
+package industries.spaceboy.basicComputing.basic
 
+import industries.spaceboy.basicComputing.basic.context.MockExecutionContext
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
@@ -10,7 +11,8 @@ import kotlin.test.assertEquals
 class BasicTest {
     @Test
     fun testPrint() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             PRINT "Hello, World!"
         """.trimIndent()).parseProgram())
         val interpreter = BasicInterpreter(ctx)
@@ -22,7 +24,8 @@ class BasicTest {
 
     @Test
     fun testAssign() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             PRINT a
         """.trimIndent()).parseProgram())
@@ -36,7 +39,8 @@ class BasicTest {
 
     @Test
     fun testAdd() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             LET b = 23
             LET c = a + b
@@ -50,7 +54,8 @@ class BasicTest {
 
     @Test
     fun testSub() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             LET b = 23
             LET c = a - b
@@ -64,7 +69,8 @@ class BasicTest {
 
     @Test
     fun testMul() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             LET b = 23
             LET c = a * b
@@ -78,7 +84,8 @@ class BasicTest {
 
     @Test
     fun testDiv() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             LET b = 23
             LET c = a / b
@@ -92,7 +99,8 @@ class BasicTest {
 
     @Test
     fun testLabel() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             GOTO printvar
             LET a = 23
@@ -111,7 +119,8 @@ class BasicTest {
     @Test
     fun testSyntaxError() {
         assertThrows<IllegalArgumentException> {
-            val ctx = MockExecutionContext(Parser("""
+            val ctx = MockExecutionContext(
+                Parser("""
                 FAKE "Hello, World!"
             """.trimIndent()).parseProgram())
         }
@@ -119,7 +128,8 @@ class BasicTest {
 
     @Test
     fun testVarUndefinedError() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             PRINT b
         """.trimIndent()).parseProgram())
@@ -132,7 +142,8 @@ class BasicTest {
 
     @Test
     fun testSimpleTrueIf() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             IF a == 42 PRINT "Yes"
         """.trimIndent()).parseProgram())
@@ -145,7 +156,8 @@ class BasicTest {
 
     @Test
     fun testSimpleFalseIf() {
-        val ctx = MockExecutionContext(Parser("""
+        val ctx = MockExecutionContext(
+            Parser("""
             LET a = 42
             IF a == 23 PRINT "Yes"
         """.trimIndent()).parseProgram())
@@ -183,14 +195,3 @@ class BasicTest {
     }
 }
 
-class MockExecutionContext(program: Program) : ExecutionContext(program) {
-    private var stdout: String = ""
-
-    override fun print(value: Any) {
-        stdout += value.toString() + "\n"
-    }
-
-    fun getStdout(): String {
-        return stdout
-    }
-}

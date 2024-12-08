@@ -1,6 +1,6 @@
 package industries.spaceboy.basicComputing
 
-import industries.spaceboy.basicComputing.blocks.ComputerBlock
+import industries.spaceboy.basicComputing.block.ComputerBlock
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.item.BlockItem

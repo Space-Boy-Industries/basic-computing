@@ -1,6 +1,6 @@
 package industries.spaceboy.basicComputing
 
-import industries.spaceboy.basicComputing.blockEntities.ComputerBlockEntity
+import industries.spaceboy.basicComputing.block.entity.ComputerBlockEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType

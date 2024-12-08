@@ -1,4 +1,6 @@
-package industries.spaceboy.basicComputing.lib.basic
+package industries.spaceboy.basicComputing.basic
+
+import industries.spaceboy.basicComputing.basic.context.ExecutionContext
 
 class BasicInterpreter(
     private val executionContext: ExecutionContext,

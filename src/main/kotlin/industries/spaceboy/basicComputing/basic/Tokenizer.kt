@@ -1,4 +1,4 @@
-package industries.spaceboy.basicComputing.lib.basic
+package industries.spaceboy.basicComputing.basic
 
 class Tokenizer(private val input: String) {
     private var currentPos = 0

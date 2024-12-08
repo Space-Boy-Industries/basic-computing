@@ -1,4 +1,4 @@
-package industries.spaceboy.basicComputing.blockEntities
+package industries.spaceboy.basicComputing.block.entity
 
 import industries.spaceboy.basicComputing.BasicComputing
 import net.minecraft.block.BlockState

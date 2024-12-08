@@ -1,4 +1,6 @@
-package industries.spaceboy.basicComputing.lib.basic
+package industries.spaceboy.basicComputing.basic.context
+
+import industries.spaceboy.basicComputing.basic.Program
 
 abstract class ExecutionContext(val program: Program) {
     private val variables = mutableMapOf<String, Any>()

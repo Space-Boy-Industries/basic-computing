@@ -1,4 +1,4 @@
-package industries.spaceboy.basicComputing.lib.basic
+package industries.spaceboy.basicComputing.basic
 
 class Parser(program: String) {
     private val tokenizer = Tokenizer(program)

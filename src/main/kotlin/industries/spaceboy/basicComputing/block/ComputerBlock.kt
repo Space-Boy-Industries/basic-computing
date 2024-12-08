@@ -1,11 +1,10 @@
-package industries.spaceboy.basicComputing.blocks
+package industries.spaceboy.basicComputing.block
 
 import com.mojang.serialization.MapCodec
-import industries.spaceboy.basicComputing.blockEntities.ComputerBlockEntity
-import industries.spaceboy.basicComputing.lib.basic.BasicInterpreter
-import industries.spaceboy.basicComputing.lib.basic.ExecutionContext
-import industries.spaceboy.basicComputing.lib.basic.Parser
-import industries.spaceboy.basicComputing.lib.basic.Program
+import industries.spaceboy.basicComputing.basic.BasicInterpreter
+import industries.spaceboy.basicComputing.basic.context.ComputerExecutionContext
+import industries.spaceboy.basicComputing.basic.Parser
+import industries.spaceboy.basicComputing.block.entity.ComputerBlockEntity
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -18,16 +17,6 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-
-// i feel like function points (or callback functions have potential for great evil.. maybe reconsider design)
-class ComputerExecutionContext(
-    private val printCallback: (value: Any) -> Unit,
-    program: Program
-): ExecutionContext(program) {
-    override fun print(value: Any) {
-        printCallback(value)
-    }
-}
 
 class ComputerBlock(settings: Settings): BlockWithEntity(settings) {
     companion object {
