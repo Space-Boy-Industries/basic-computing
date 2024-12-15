@@ -1,12 +1,11 @@
 package industries.spaceboy.basicComputing.screen
 
-import industries.spaceboy.basicComputing.BasicComputing
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 
-class TerminalScreenHandler(syncId: Int, playerInventory: PlayerInventory) : ScreenHandler(BasicComputing.SCREEN_TYPES.TERMINAL_SCREEN_HANDLER, syncId) {
+class TerminalScreenHandler(syncId: Int, inventory: PlayerInventory) : ScreenHandler(ModScreens.TERMINAL_SCREEN_HANDLER, syncId) {
     override fun quickMove(player: PlayerEntity?, slot: Int): ItemStack {
         TODO("Not yet implemented")
     }

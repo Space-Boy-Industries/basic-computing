@@ -1,6 +1,5 @@
 package industries.spaceboy.basicComputing.block.entity
 
-import industries.spaceboy.basicComputing.BasicComputing
 import industries.spaceboy.basicComputing.screen.TerminalScreenHandler
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -13,7 +12,7 @@ import net.minecraft.screen.ScreenHandler
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 
-class ComputerBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(BasicComputing.BLOCK_ENTITIES.COMPUTER_BLOCK, pos, state), NamedScreenHandlerFactory {
+class ComputerBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(ModBlockEntityTypes.COMPUTER_BLOCK, pos, state), NamedScreenHandlerFactory {
     private var rom = """
         LET X = 5
         LET Y = 2
@@ -45,6 +44,11 @@ class ComputerBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(BasicCo
 
     fun getRom(): String {
         return rom
+    }
+
+    fun setRom(rom: String) {
+        this.rom = rom
+        markDirty()
     }
 
     override fun createMenu(syncId: Int, playerInventory: PlayerInventory?, player: PlayerEntity?): ScreenHandler? {
